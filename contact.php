@@ -1,5 +1,30 @@
 <?php
 session_start();
+if (isset($_POST['name'])) {
+    require_once "scripts/connect_script.php";
+    mysqli_report(MYSQLI_REPORT_STRICT);
+
+    try {
+        $connection = @new mysqli($host, $db_user, $db_password, $db_name);
+        if ($connection->connect_errno!=0) {
+            throw new Exception(mysqli_connect_errno());
+        } else {
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $subject = $_POST['subject'];
+            $msg = $_POST['msg'];
+
+            $sql = "INSERT INTO contact (name, email, subject, msg) VALUES ('$name', '$email', '$subject', '$msg')";
+            if(!$connection->query($sql)){
+                echo "blad";
+                echo $connection->error;
+            }
+            $connection->close();
+        }
+    } catch (Exception $e) {
+        echo "Blad serwera ".$e;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -88,13 +113,18 @@ session_start();
                     </div>
                 </div>
                 <div class="contact-col">
-                    <form action="">
-                        <input type="text" placeholder="Imie" required>
-                        <input type="email" placeholder="e-mail" required>
-                        <input type="text" placeholder="Temat" required>
-                        <textarea rows="8" placeholder="Wiadomość" required></textarea>
-                        <button type="submit" class="hero-btn red-btn">Wyślij wiadomość</button>
-                    </form>
+                        <form method="post" enctype="multipart/form-data">
+                            <input type="text" style="color: black" placeholder="Imie" required name="name">
+                            <input type="email" style="color: black" placeholder="e-mail" required name="email">
+                            <input type="text" style="color: black" placeholder="Temat" required name="subject">
+                            <textarea rows="8" style="color: black" placeholder="Wiadomość" required name="msg"></textarea>
+                            <button type="submit" class="hero-btn red-btn">Wyślij wiadomość</button>
+                            <?php
+                                if (isset($_POST['name'])) {
+                                    echo "<p>Wysłano wiadomość!</p>";
+                                }
+                            ?>
+                        </form>
                 </div>
             </div>
         </section>

@@ -127,6 +127,11 @@ if (isset($_FILES['upload'])) {
                     echo $_SESSION['user'];
                     ?>
                 </h1>
+                <?php
+                    if ($_SESSION['type'] != 0) {
+                        echo '<a href="staff_panel_rents.php" class="hero-btn">WYPOŻYCZENIA KLIENTÓW</a>';
+                    }
+                ?>
             </nav>
         </section>
         <section class="selling">
@@ -162,11 +167,20 @@ if (isset($_FILES['upload'])) {
                         </form>
                     </div>
                 </div>
-                <div class="selling-col">
-                    <h3>AUTA BEZ LIMITU KILOMETRÓW</h3>
-                    <p>Ciesz się jazdą nie martwiąc się, że przekroczysz limit kilometrów!</p>
-                </div>
+                <?php
+                require_once ("scripts/functions.php");
+                adminUserChange();
+                userRentAdd();
+                userRentDel();
+                ?>
             </div>
+        </section>
+        <section class="testimonials">
+            <h1>Wiadomości klientów</h1>
+            <?php
+            require_once "scripts/functions.php";
+            showMessages();
+            ?>
         </section>
         <script>
             var navLinks = document.getElementById("navLinks");

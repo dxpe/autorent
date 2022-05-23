@@ -1,5 +1,8 @@
 <?php
 session_start();
+// if ($_SESSION['type'] == 0) {
+//     header('Location: index.php');
+// }
 ?>
 
 <!DOCTYPE html>
@@ -57,47 +60,22 @@ session_start();
                 <h1>
                     <?php
                     echo $_SESSION['user'];
+                    echo "<br>"
                     ?>
+                    WYPOŻYCZENIA KLIENTÓW
                 </h1>
                 <?php
                     if ($_SESSION['type'] != 0) {
-                        echo '<a href="staff_panel.php" class="hero-btn">PANEL PRACOWNIKA</a>';
+                        echo '<a href="staff_panel.php" class="hero-btn">POWRÓT</a>';
                     }
                 ?>
             </nav>
         </section>
         <section class="flota">
-            <h3>TWOJE WYPOŻYCZENIA<h3>
-                <?php
-                require_once "scripts/functions.php";
-                showRents();
-                ?>
-        </section>
-        <section class="footer">
-            <h4>AUTO<span style="color: #f44336">rent</span></h4>
-            <div class="row">
-                <div class="footer-about">
-                    <i class="fa fa-map-marker"></i>
-                    <p>Konstantego Ciołkowskiego 1, 15-245 Białystok</p>
-                </div>
-                <div class="footer-about">
-                    <i class="fa fa-clock-o"></i>
-                    <p>Pon-Pt: 8:00 - 18:00 <br> Sobota: 9:00 - 15:00</p>
-                </div>
-                <div class="footer-about">
-                    <i class="fa fa-envelope"></i>
-                    <p>contact@autocars.pl</p>
-                </div>
-                <div class="footer-about">
-                    <i class="fa fa-phone"></i>
-                    <p>692-137-420</p>
-                </div>
-            </div>
-            <div class="icons">
-                <i class="fa fa-facebook"><a href="google.com"></a></i>
-                <i class="fa fa-twitter"></i>
-                <i class="fa fa-instagram"></i>
-            </div>
+            <?php
+            require_once "scripts/functions.php";
+            showRentsAll();
+            ?>
         </section>
         <script>
             var navLinks = document.getElementById("navLinks");
