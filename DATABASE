@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 17 Maj 2022, 11:23
+-- Czas generowania: 23 Maj 2022, 16:08
 -- Wersja serwera: 10.4.24-MariaDB
 -- Wersja PHP: 8.1.5
 
@@ -38,6 +38,56 @@ CREATE TABLE `cars` (
   `price_greater` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Zrzut danych tabeli `cars`
+--
+
+INSERT INTO `cars` (`car_id`, `car_name`, `car_year`, `gearbox`, `capacity`, `power`, `type`, `seats`, `doors`, `color`, `img`, `price_seven`, `price_fourteen`, `price_greater`) VALUES
+(5, 'Toyota Yaris', 2018, 'Manualna', 1500, 111, 'Benzyna', 5, '4/5', 'Srebrny', 'toyota-yaris.png', 110, 90, 80),
+(6, 'Citroen C3', 2017, 'Manualna', 1200, 82, 'Benzyna', 5, '4/5', 'Czarny/Biały', 'citroen-c3.png', 110, 90, 80),
+(7, 'Nissan Juke', 2018, 'Manualna', 1600, 115, 'Benzyna', 5, '4/5', 'Biały', 'nissan-juke.png', 110, 90, 80);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `contact`
+--
+
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `msg` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `contact`
+--
+
+INSERT INTO `contact` (`id`, `name`, `email`, `subject`, `msg`) VALUES
+(1, 'asd', 'asd@wp.pl', 'asd', 'asd'),
+(2, 'Kacper', 'vaker2001@wp.pl', 'test', 'test');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `rents`
+--
+
+CREATE TABLE `rents` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `car_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `rents`
+--
+
+INSERT INTO `rents` (`id`, `user_id`, `car_id`) VALUES
+(12, 2, 7);
+
 -- --------------------------------------------------------
 
 --
@@ -61,7 +111,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `login`, `password`, `name`, `surname`, `email`, `phone`, `type`, `register_date`) VALUES
-(1, 'adam', 'qwerty', 'Adam', 'Test', 'adamtest@gmail.com', '696-696-696', 0, '2022-05-16 12:00:36'),
+(1, 'adam', 'qwerty', 'Adam', 'Test', 'adamtest@gmail.com', '696-696-696', 1, '2022-05-16 12:00:36'),
 (2, 'admin', 'admin', 'admin', 'admin', 'admin@autorent.pl', 'admin', 2, '2022-05-16 19:09:52');
 
 --
@@ -73,6 +123,20 @@ INSERT INTO `users` (`user_id`, `login`, `password`, `name`, `surname`, `email`,
 --
 ALTER TABLE `cars`
   ADD PRIMARY KEY (`car_id`);
+
+--
+-- Indeksy dla tabeli `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeksy dla tabeli `rents`
+--
+ALTER TABLE `rents`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `car_id` (`car_id`);
 
 --
 -- Indeksy dla tabeli `users`
@@ -88,11 +152,34 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT dla tabeli `cars`
 --
 ALTER TABLE `cars`
-  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT dla tabeli `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT dla tabeli `rents`
+--
+ALTER TABLE `rents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT dla tabeli `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Ograniczenia dla zrzutów tabel
+--
+
+--
+-- Ograniczenia dla tabeli `rents`
+--
+ALTER TABLE `rents`
+  ADD CONSTRAINT `rents_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `rents_ibfk_2` FOREIGN KEY (`car_id`) REFERENCES `cars` (`car_id`);
 COMMIT;
